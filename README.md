@@ -1,0 +1,1 @@
+Security Log Monitoring Web App is a Flask-based backend service designed to analyze Linux authentication logs (auth.log) and extract security-relevant events such as failed SSH logins, successful logins, and sudo usage. The application provides structured JSON metrics through REST endpoints and includes a health check for service monitoring.
