@@ -1,5 +1,8 @@
 from parser import parse_auth_log
+from pathlib import Path
 
+
+FIXTURE_PATH = Path(__file__).parent / "fixtures_auth.log"
 def test_failed_logins():
     results = parse_auth_log("tests/fixtures_auth.log")
     failed = results["failed_logins"]

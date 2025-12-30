@@ -18,7 +18,7 @@ def parse_auth_log(path):
     accepted = Counter()
     sudo = Counter()
 
-    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+    with open(str(path), "r", encoding="utf-8", errors="ignore") as f:
         for line in f:
             if match := FAILED_LOGIN_RE.search(line):
                 failed[(match["user"], match["ip"])] += 1
