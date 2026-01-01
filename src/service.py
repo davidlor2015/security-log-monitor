@@ -1,7 +1,8 @@
 from flask import Flask, jsonify
 from parser import parse_auth_log
+from detector import detect_bruteforce
 
-LOG_PATH = "data/auth.log"
+LOG_PATH = "tests/fixtures_auth.log"
 
 def create_app():
     app = Flask(__name__)
@@ -30,6 +31,26 @@ def create_app():
         }
         
         return jsonify(response), 200
+    
+    @app.route("/events", methods=["GET"])
+    def events():
+        results = parse_auth_log(LOG_PATH)
+
+        return jsonify([
+            {
+                "type": e.event_type,
+                "user": e.user,
+                "ip": e.ip,
+                "severity": e.severity,
+            }
+            for e in results["events"]
+        ])
+
+    @app.route("/alerts", methods=["GET"])
+    def alerts():
+        results = parse_auth_log(LOG_PATH)
+        alerts = detect_bruteforce(results["events"], threshold=5)
+        return jsonify(alerts), 200
     
     return app
 
